@@ -1,10 +1,13 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const https = require('https')
+const dotenv = require('dotenv').config({path: __dirname + '/.env'})
 
 const app = express()
 const port = 3000
 
+const API_KEY = process.evn.API_TOKEN
+const GROUP_ID = process.env.GROUP_ID
 
 app.use(express.static("public"))
 app.use(bodyParser.urlencoded({extended:true}))
@@ -30,11 +33,11 @@ app.post('/', function (req, res) {
     ]
   }
   const jsonData = JSON.stringify(data)
-  const url = "https://us12.api.mailchimp.com/3.0/lists/a7853843c5"
+  const url = `https://us12.api.mailchimp.com/3.0/lists/${API_KEY}`
 
   const options = {
     method: "POST",
-    auth: "nick1:ffe20acdbda207026c56e55b1205e141-us12"
+    auth: `nick1:${GROUP_ID}`
   }
   const request = https.request(url, options, function(response){
 
